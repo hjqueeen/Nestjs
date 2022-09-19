@@ -39,7 +39,7 @@ export class AuthController {
     return req.user;
   }
 
-  @Get('my-endpoint')
+  @Get('api-key')
   @UseGuards(AuthGuard('api-key'))
   findOne() {
     // do something

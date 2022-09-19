@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { RegistrationDto } from './dto/registration.dto';
 import { UserDto } from './dto/user.dto';
 import { User } from './user.entity';
+import { UsersRepository } from './users.repository';
 
 // export type User = {
 //   id: number;
@@ -30,7 +31,7 @@ export class UsersService {
 
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: UsersRepository,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -38,7 +39,7 @@ export class UsersService {
   }
 
   findOne(username: string): Promise<User> {
-    return this.usersRepository.findOneBy({ username });
+    return this.usersRepository.findOne({ username });
   }
 
   async getUsers(
@@ -49,5 +50,9 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
+  }
+
+  async registration(registrationDto: RegistrationDto): Promise<any> {
+    await this.usersRepository.registration(registrationDto);
   }
 }

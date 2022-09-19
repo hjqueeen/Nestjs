@@ -1,5 +1,5 @@
-import { CustomRepository } from 'src/typeorm-ex/typeorm-ex.decorator';
-import { Repository } from 'typeorm';
+// import { CustomRepository } from 'src/typeorm-ex/typeorm-ex.decorator';
+import { EntityRepository, Repository } from 'typeorm';
 import { RegistrationDto } from './dto/registration.dto';
 import { User } from './user.entity';
 import { v4 as uuid } from 'uuid';
@@ -9,7 +9,8 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 
-@CustomRepository(User) //@deprecated EntityRepository
+// @CustomRepository(User) //@deprecated EntityRepository
+@EntityRepository()
 export class UsersRepository extends Repository<User> {
   async registration(
     registrationDto: RegistrationDto,

@@ -20,9 +20,8 @@ export class UsersRepository extends Repository<User> {
     const user = new User();
     user.email = email;
     // generate random pw
-    const randomNumber = this.getRandomArbitrary(5000, 9000);
-    const data = new Date().toISOString;
-    const password = randomNumber + data + uuid();
+    const randomNumber = this.getRandomArbitrary(0, 100);
+    const password = randomNumber + uuid();
     // generate salt
     user.salt = await bcrypt.genSalt();
     // hash password

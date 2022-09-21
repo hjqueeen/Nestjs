@@ -6,7 +6,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Controller, Get } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { ActivityDto } from './dto/activity.dto';
 import { StatistikService } from './statistik.service';
 

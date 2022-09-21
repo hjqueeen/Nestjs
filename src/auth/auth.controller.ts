@@ -8,6 +8,7 @@ import {
   ApiBadRequestResponse,
   ApiResponse,
 } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -36,5 +37,11 @@ export class AuthController {
   getHello(@Request() req): string {
     //require an Bearer token, validate token
     return req.user;
+  }
+
+  @Get('api-key')
+  @UseGuards(AuthGuard('api-key'))
+  findOne() {
+    // do something
   }
 }

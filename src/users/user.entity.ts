@@ -44,6 +44,12 @@ export class User extends BaseEntity {
     return hash === this.password;
   }
 
+  async isUserThisWeek(today: Date): Promise<boolean> {
+    const prev_7day = today.setDate(today.getDate() - 7);
+
+    return +this.loginDate > prev_7day;
+  }
+
   // @OneToMany(type => Photo, photo => photo.user)
   // photos: Photo[];
 }

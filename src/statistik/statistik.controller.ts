@@ -23,6 +23,6 @@ export class StatistikController {
   @ApiBadRequestResponse({ description: 'Bad request.' })
   @ApiForbiddenResponse({ description: 'Forbidden request.' })
   getActivity(): Promise<ActivityDto> {
-    return this.statistikService.getActivity();
+    return this.statistikService.getThisWeeksVisitor();
   }
 }

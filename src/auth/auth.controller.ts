@@ -1,4 +1,12 @@
-import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Request,
+  Post,
+  UseGuards,
+  Body,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -7,21 +15,27 @@ import {
   ApiCreatedResponse,
   ApiBadRequestResponse,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { User } from 'src/users/user.entity';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('login')
   @ApiOperation({ summary: 'login', description: 'User login' })
   @ApiCreatedResponse({ description: 'Login successful.' })
   @ApiBadRequestResponse({ description: 'Bad request.' })
   @ApiResponse({ status: 401, description: 'Invalid credentials.' })
-  async login(@Request() req) {
-    return this.authService.login(req.user); //return JWT token
+  async login(
+    @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+  ): Promise<any> {
+    return this.authService.login(authCredentialsDto);
   }
 
   @Post('logout')

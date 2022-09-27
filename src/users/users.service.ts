@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ActivityDto } from 'src/statistik/dto/activity.dto';
+import { Connection } from 'typeorm';
 import { RegistrationDto } from './dto/registration.dto';
 import { UserDto } from './dto/user.dto';
 import { User } from './user.entity';
@@ -30,10 +31,11 @@ export class UsersService {
   //   },
   // ];
 
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: UsersRepository,
-  ) {}
+  private usersRepository: UsersRepository;
+
+  constructor(private connection: Connection) {
+    this.usersRepository = this.connection.getCustomRepository(UsersRepository);
+  }
 
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
@@ -53,8 +55,11 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
-  async registration(registrationDto: RegistrationDto): Promise<any> {
+  async registration(
+    registrationDto: RegistrationDto,
+  ): Promise<RegistrationDto> {
     await this.usersRepository.registration(registrationDto);
+    return registrationDto;
   }
 
   async getActivity(): Promise<ActivityDto> {

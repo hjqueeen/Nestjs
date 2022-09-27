@@ -8,6 +8,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { HeaderApiKeyStrategy } from './auth-header-api-key.strategy';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersRepository } from '../users/users.repository';
 
 @Module({
   imports: [
@@ -18,8 +20,10 @@ import { ConfigModule } from '@nestjs/config';
       secret: 'SECRET', // put env variables
       signOptions: { expiresIn: '60s' },
     }),
+    // TypeOrmModule.forFeature([UsersRepository]),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, HeaderApiKeyStrategy],
+
   exports: [AuthService],
   controllers: [AuthController],
 })

@@ -18,9 +18,11 @@ export class StatistikService {
     this.usersRepository = this.connection.getCustomRepository(UsersRepository);
   }
 
-  async getActivity(): Promise<ActivityDto> {
+  async getActivity(): Promise<any> {
     const allUsers = await this.usersRepository.find();
+
     return {
+      allUsers,
       item: 0,
       min: { value: 0 },
       max: { value: allUsers.length ?? 0 },

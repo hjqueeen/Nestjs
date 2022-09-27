@@ -6,12 +6,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Photo } from '../photos/photo.entity';
+import * as bcrypt from 'bcrypt';
+
+// import { Photo } from '../photos/photo.entity';
 
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   email: string;
@@ -24,11 +26,23 @@ export class User extends BaseEntity {
   @Column()
   salt: string;
 
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   username: string;
+
+  @Column({ nullable: true })
+  loginDate: Date;
+
+  @Column({ nullable: true })
+  registrationDate: Date;
+
+  async validatePassword(password: string): Promise<boolean> {
+    const hash = await bcrypt.hash(password, this.salt);
+
+    return hash === this.password;
+  }
 
   // @OneToMany(type => Photo, photo => photo.user)
   // photos: Photo[];

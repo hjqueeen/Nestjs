@@ -4,7 +4,6 @@ import { IsEmail, IsOptional } from 'class-validator';
 export class RegistrationDto {
   @ApiProperty({ example: 'paul.mueller@mail.de' })
   @IsEmail()
-  @IsOptional()
   email?: string;
 
   @ApiProperty({ example: '@ABC123' })

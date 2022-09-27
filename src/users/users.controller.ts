@@ -1,11 +1,15 @@
 import {
   ApiBadRequestResponse,
+  ApiBody,
+  ApiConflictResponse,
+  ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -26,7 +30,7 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Get users' })
-  @ApiOkResponse({ description: 'Getting users succesful', type: UserDto })
+  @ApiCreatedResponse({ description: 'Getting users succesful', type: UserDto })
   @ApiBadRequestResponse({ description: 'Bad request.' })
   @ApiForbiddenResponse({ description: 'Forbidden request.' })
   @UseGuards(AuthGuard('jwt'))
@@ -36,8 +40,16 @@ export class UsersController {
     return this.usersService.getUsers(userFilterDto);
   }
 
-  @Post('registration')
-  async registration(registrationDto: RegistrationDto): Promise<any> {
+  @Post('/registration')
+  @ApiOperation({
+    summary: 'Registration',
+    description: 'Registration with body data',
+  })
+  @ApiCreatedResponse({ description: 'Registration successful.' })
+  @ApiConflictResponse({ description: 'E-Mail already exists.' })
+  async registration(
+    @Body(ValidationPipe) registrationDto: RegistrationDto,
+  ): Promise<RegistrationDto> {
     return this.usersService.registration(registrationDto);
   }
 }

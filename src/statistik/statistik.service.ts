@@ -18,22 +18,22 @@ export class StatistikService {
     this.usersRepository = this.connection.getCustomRepository(UsersRepository);
   }
 
-  async getActivity(): Promise<any> {
+  async getThisMonthsVisitor(): Promise<any> {
     const allUsers = await this.usersRepository.find();
-    let thisWeeksVisitor = 0;
+    let thisMonthsVisitor = 0;
 
     allUsers.map((user) => {
       const today = new Date();
-      const prev_7day = today.setDate(today.getDate() - 7);
+      const prev_30day = today.setDate(today.getDate() - 30);
       if (user.loginDate) {
-        if (+user.loginDate > prev_7day) {
-          thisWeeksVisitor += 1;
+        if (+user.loginDate > prev_30day) {
+          thisMonthsVisitor += 1;
         }
       }
     });
 
     return {
-      item: thisWeeksVisitor,
+      item: thisMonthsVisitor,
       min: { value: 0 },
       max: { value: allUsers.length ?? 0 },
     };

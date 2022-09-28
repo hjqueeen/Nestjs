@@ -1,3 +1,4 @@
+import { Controller, Get } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiForbiddenResponse,
@@ -5,8 +6,11 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { Controller, Get } from '@nestjs/common';
+
+// DTOs
 import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
+
+// Services
 import { StatistikService } from './statistik.service';
 
 @Controller('statistik')

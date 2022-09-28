@@ -31,7 +31,7 @@ export class UsersRepository extends Repository<User> {
     user.password = await this.hashPassword(password, user.salt);
     // registration date
     const date = new Date();
-    user.registrationDate = date;
+    user.registration_date = date;
 
     try {
       await user.save();
@@ -78,17 +78,18 @@ export class UsersRepository extends Repository<User> {
   /**
    * update login date.
    * @param id User id
-   * @param loginDateDto LoginDateDto
    * @param user User
-   * @return loginDateDto
+   * @return last login date
    */
-  async updateLoginDate(user: User): Promise<Date> {
-    const loginDate = new Date();
+  async updateLoginDate(user: User): Promise<void> {
+    const today = new Date();
 
-    // update LoginDate
-    await this.update(user.id, { loginDate: loginDate });
-
-    return loginDate;
+    try {
+      await this.update(user.id, { last_login: today });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   private getRandomArbitrary(min, max) {

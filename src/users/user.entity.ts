@@ -33,19 +33,14 @@ export class User extends BaseEntity {
   username: string;
 
   @Column({ nullable: true })
-  loginDate: Date;
+  last_login: Date;
 
   @Column({ nullable: true })
-  registrationDate: Date;
+  registration_date: Date;
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
     return hash === this.password;
-  }
-
-  async isUserThisWeek(today: Date): Promise<boolean> {
-    const prev_7day = today.setDate(today.getDate() - 7);
-    return +this.loginDate > prev_7day;
   }
 
   // @OneToMany(type => Photo, photo => photo.user)

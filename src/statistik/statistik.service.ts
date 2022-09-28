@@ -3,13 +3,6 @@ import { Connection } from 'typeorm';
 import { UsersRepository } from '../users/users.repository';
 import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
 
-// export type User = {
-//   id: number;
-//   name: string;
-//   username: string;
-//   password: string;
-// };
-
 @Injectable()
 export class StatistikService {
   private usersRepository: UsersRepository;
@@ -25,8 +18,8 @@ export class StatistikService {
     allUsers.map((user) => {
       const today = new Date();
       const prev_30day = today.setDate(today.getDate() - 30);
-      if (user.loginDate) {
-        if (+user.loginDate > prev_30day) {
+      if (user.last_login) {
+        if (+user.last_login > prev_30day) {
           thisMonthsVisitor += 1;
         }
       }
@@ -44,8 +37,8 @@ export class StatistikService {
     allUsers.map((user) => {
       const today = new Date();
       const prev_7day = today.setDate(today.getDate() - 7);
-      if (user.registrationDate) {
-        if (+user.registrationDate > prev_7day) {
+      if (user.registration_date) {
+        if (+user.registration_date > prev_7day) {
           newSubscriber += 1;
         }
       }

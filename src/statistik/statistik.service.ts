@@ -33,9 +33,7 @@ export class StatistikService {
     });
 
     return {
-      item: thisMonthsVisitor,
-      min: { value: 0 },
-      max: { value: allUsers.length ?? 0 },
+      green_marker: thisMonthsVisitor,
     };
   }
 
@@ -54,7 +52,9 @@ export class StatistikService {
     });
 
     return {
-      subscriber: newSubscriber,
+      item: newSubscriber,
+      min: { value: 0 },
+      max: { value: allUsers.length ?? 0 },
     };
   }
 }

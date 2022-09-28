@@ -1,11 +1,11 @@
 export class VisitorDto {
-  item: number;
-  min: ValueObject;
-  max: ValueObject;
+  green_marker: number;
 }
 
 export class NewSubscriberDto {
-  subscriber: number;
+  item: number;
+  min: ValueObject;
+  max: ValueObject;
 }
 
 export class ValueObject {

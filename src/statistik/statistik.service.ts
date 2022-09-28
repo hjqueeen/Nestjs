@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ActivityDto } from 'src/statistik/dto/activity.dto';
 import { Connection } from 'typeorm';
 import { UsersRepository } from '../users/users.repository';
+import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
 
 // export type User = {
 //   id: number;
@@ -18,7 +18,7 @@ export class StatistikService {
     this.usersRepository = this.connection.getCustomRepository(UsersRepository);
   }
 
-  async getThisMonthsVisitor(): Promise<any> {
+  async getThisMonthsVisitor(): Promise<VisitorDto> {
     const allUsers = await this.usersRepository.find();
     let thisMonthsVisitor = 0;
 
@@ -36,6 +36,25 @@ export class StatistikService {
       item: thisMonthsVisitor,
       min: { value: 0 },
       max: { value: allUsers.length ?? 0 },
+    };
+  }
+
+  async getNewSubscriber(): Promise<NewSubscriberDto> {
+    const allUsers = await this.usersRepository.find();
+    let newSubscriber = 0;
+
+    allUsers.map((user) => {
+      const today = new Date();
+      const prev_7day = today.setDate(today.getDate() - 7);
+      if (user.registrationDate) {
+        if (+user.registrationDate > prev_7day) {
+          newSubscriber += 1;
+        }
+      }
+    });
+
+    return {
+      subscriber: newSubscriber,
     };
   }
 }

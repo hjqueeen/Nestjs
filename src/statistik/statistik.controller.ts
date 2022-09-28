@@ -6,7 +6,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Controller, Get } from '@nestjs/common';
-import { ActivityDto } from './dto/activity.dto';
+import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
 import { StatistikService } from './statistik.service';
 
 @Controller('statistik')
@@ -14,15 +14,27 @@ import { StatistikService } from './statistik.service';
 export class StatistikController {
   constructor(private statistikService: StatistikService) {}
 
-  @Get('/activity')
-  @ApiOperation({ summary: 'Get activity' })
+  @Get('/visitor')
+  @ApiOperation({ summary: 'Get number of visitors this month' })
   @ApiOkResponse({
-    description: 'Getting activity succesful',
-    type: ActivityDto,
+    description: 'Getting visitor succesful',
+    type: VisitorDto,
   })
   @ApiBadRequestResponse({ description: 'Bad request.' })
   @ApiForbiddenResponse({ description: 'Forbidden request.' })
-  getActivity(): Promise<ActivityDto> {
+  getVisitor(): Promise<VisitorDto> {
     return this.statistikService.getThisMonthsVisitor();
+  }
+
+  @Get('/subscriber')
+  @ApiOperation({ summary: 'Get number of new subscribers this week' })
+  @ApiOkResponse({
+    description: 'Getting subscriber succesful',
+    type: NewSubscriberDto,
+  })
+  @ApiBadRequestResponse({ description: 'Bad request.' })
+  @ApiForbiddenResponse({ description: 'Forbidden request.' })
+  getSubscriber(): Promise<NewSubscriberDto> {
+    return this.statistikService.getNewSubscriber();
   }
 }

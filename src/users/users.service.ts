@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ActivityDto } from 'src/statistik/dto/activity.dto';
 import { Connection } from 'typeorm';
 import { RegistrationDto } from './dto/registration.dto';
 import { UserDto } from './dto/user.dto';
@@ -60,14 +58,5 @@ export class UsersService {
   ): Promise<RegistrationDto> {
     await this.usersRepository.registration(registrationDto);
     return registrationDto;
-  }
-
-  async getActivity(): Promise<ActivityDto> {
-    const allUsers = await this.usersRepository.find();
-    return {
-      item: 0,
-      min: { value: 0 },
-      max: { value: allUsers.length ?? 0 },
-    };
   }
 }

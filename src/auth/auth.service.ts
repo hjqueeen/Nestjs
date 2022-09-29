@@ -46,10 +46,10 @@ export class AuthService {
       }
 
       // Sigh payload to create acces token
-      const acces_token = this.jwtService.sign(payload);
+      const acces_token = await this.jwtService.sign(payload);
 
       // update LoginDate
-      this.usersRepository.updateLoginDate(repoUser);
+      await this.usersRepository.updateLoginDate(repoUser);
 
       // Return LoginResponse
       return {

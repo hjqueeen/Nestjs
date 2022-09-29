@@ -30,8 +30,8 @@ export class UsersRepository extends Repository<User> {
     // hash password
     user.password = await this.hashPassword(password, user.salt);
     // registration date
-    const date = new Date();
-    user.registration_date = date;
+    const signup_day = new Date();
+    user.registration_date = signup_day;
 
     try {
       await user.save();

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { UsersRepository } from '../users/users.repository';
-import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
+import { NewSubscriberDto, VisitorDto } from './dto/statistik.dto';
 
 @Injectable()
 export class StatistikService {
@@ -11,7 +11,7 @@ export class StatistikService {
     this.usersRepository = this.connection.getCustomRepository(UsersRepository);
   }
 
-  async getThisMonthsVisitor(): Promise<VisitorDto> {
+  async getVisitorThisMonth(): Promise<VisitorDto> {
     const allUsers = await this.usersRepository.find();
     let thisMonthsVisitor = 0;
 

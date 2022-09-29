@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 
 // DTOs
-import { NewSubscriberDto, VisitorDto } from './dto/activity.dto';
+import { NewSubscriberDto, VisitorDto } from './dto/statistik.dto';
 
 // Services
 import { StatistikService } from './statistik.service';
@@ -27,7 +27,7 @@ export class StatistikController {
   @ApiBadRequestResponse({ description: 'Bad request.' })
   @ApiForbiddenResponse({ description: 'Forbidden request.' })
   getVisitor(): Promise<VisitorDto> {
-    return this.statistikService.getThisMonthsVisitor();
+    return this.statistikService.getVisitorThisMonth();
   }
 
   @Get('/subscriber')
